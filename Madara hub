@@ -1,0 +1,122 @@
+-- Madara Hub Completo - Quadrado Grande
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local RunService = game:GetService("RunService")
+
+-- Criar ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "MadaraHubLarge"
+ScreenGui.Parent = PlayerGui
+ScreenGui.ResetOnSpawn = false
+
+-- Frame Grande
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0.9, 0, 0.9, 0)
+MainFrame.Position = UDim2.new(0.05, 0, 0.05, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+-- Título
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 50)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Title.Text = "MADARA HUB"
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 35
+Title.Parent = MainFrame
+
+-- Função para criar botões
+local function createButton(name, callback, order)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0.25, 0, 0, 50)
+    Button.Position = UDim2.new(0.05 + (order-1)*0.27, 0, 0.1, 0)
+    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Button.BorderSizePixel = 0
+    Button.Text = name
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.Font = Enum.Font.Gotham
+    Button.TextSize = 20
+    Button.Parent = MainFrame
+
+    Button.MouseButton1Click:Connect(callback)
+end
+
+-- Botão Pular
+createButton("Pular", function()
+    local character = LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") then
+        character.Humanoid.Jump = true
+    end
+end, 1)
+
+-- Auto Farm Gol
+createButton("Auto Farm Gol", function()
+    if _G.AutoFarm then
+        _G.AutoFarm = false
+    else
+        _G.AutoFarm = true
+        spawn(function()
+            while _G.AutoFarm do
+                local character = LocalPlayer.Character
+                local hrp = character and character:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    -- Detectar bolas no workspace (substitua "SoccerBall" pelo nome correto)
+                    for _, ball in pairs(workspace:GetChildren()) do
+                        if ball.Name == "SoccerBall" then
+                            -- Teleportar para o gol (substitua pelo CFrame real do gol)
+                            hrp.CFrame = CFrame.new(Vector3.new(100,5,0))
+                            wait(0.1)
+                        end
+                    end
+                end
+                wait(0.2)
+            end
+        end)
+    end
+end, 2)
+
+-- Lista de códigos em maiúsculo
+local Codes = {
+    "OTOYA","NINJA","NINJABIRD","NO4","INVISIBLE","SORRYKARASU","SORRY4BUG","KARASU",
+    "ASSASSIN","TWITTERKING?","SHADOW","AUGH","10MILLY","WOWNOWAY","GYMBRO","HERO",
+    "ORANGE","MUSCLES","NEWGEN11","KAISERIMPACT!","KAISERBIRD","EMPERORSREWORK",
+    "GERMANY","UHMYEAH","NELBACHIRA","BOOM","DRIBBLER","SUBSZ","FLYDAY","NELSHIDOU",
+    "RYUU","THEDRAGON","FREESPINSIES","YUKIMIYA","STREETSTYLE","YUKITWITTER","GLASSES",
+    "THANKYOU","MILESTONE","PHOENIX","UBERS","THEBEST","LONGNOSE","SNUFFYBIRD",
+    "SAEREWORK","1500FOLLOWERS","MAGICIAN","JAPANSBEST","AIKUUPDATE","COBRATERRITORY",
+    "SNAKECOIL","NARUHAYAUPDATE","RUNINBEHIND","BETTERTHANISAGI","SHIDOUUPDATE",
+    "ZLATAN","BICYCLEKICK","1KFOLLOWERS","DEFENSEKING2","CHAMELEON","REOUPDATE","COPYCAT"
+}
+
+-- Função genérica para resgatar códigos
+local function RedeemCode(code)
+    -- Substitua pelo evento real do jogo
+    -- Exemplo:
+    -- game:GetService("ReplicatedStorage").RedeemCodeEvent:FireServer(code)
+    print("Resgatando código:", code)
+end
+
+-- Botão Resgatar Todos os Códigos
+createButton("Resgatar Todos os Códigos", function()
+    for _, code in ipairs(Codes) do
+        RedeemCode(code)
+        wait(0.2)
+    end
+    print("Todos os códigos foram resgatados!")
+end, 3)
+
+-- Botão Speed
+createButton("Speed", function()
+    print("Speed ativado! Coloque seu script aqui.")
+end, 4)
+
+-- Botão Fly
+createButton("Fly", function()
+    print("Fly ativado! Coloque seu script aqui.")
+end, 5)
